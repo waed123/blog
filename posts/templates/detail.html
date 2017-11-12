@@ -6,6 +6,11 @@
 	<div class="jumbotron">
 		<h1 class="display-3">{{item.title}}</h1>
 		<p class="lead">{{item.content}}</p>
+
+		{% if item.img %}
+			<img src="{{item.img.url}}" alt="card image" class="card-img-top" style="height: 30%; width: 30%;">
+		{% endif %}
+
 		<hr class="my-4">
 		<p><small>{{item.updated|timesince}}</small></p>
 	</div>
