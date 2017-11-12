@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title></title>
-</head>
-<body>
-   <p>{{name}}</p>
-   {% for c in color %}<p>{{c}}</p>{% endfor %}
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block heading %} Create {% endblock heading%}
+
+{% block content%}
+	<form action="{% url 'more:create' %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+	   {{form.as_p}}
+	   <input type="submit" value="create">
+   </form>
+{% endblock content%}

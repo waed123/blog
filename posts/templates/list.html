@@ -1,51 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title></title>
-	<style type="text/css">
-		.tab {
-			text-align: left; 
-			border: 3px solid black;
-		}
+{% extends "base.html" %}
+	
+{% block heading %} 
+	List 
+{% endblock heading%}
 
-		.tit {
-			border: 3px solid black;
-			background-color: #300002;
-			color: White;
-		}
-
-		.data {
-			border: 3px solid black;
-		}
-
-		.div {
-			border: 3px solid black;
-			background-color: #999888;
-			color: black;
-			padding: 5px;
-		}
+{% block content%}
+	<style>
+		
 	</style>
-</head>
-<body>
-	<div>
-		<h1>Blogs</h1>
+	
+	{% include 'messages.html' %}
 
-		<table class="tab">
-			<tr>
-				<th class="tit">Title</th>
-				<th class="tit">Content</th>
-			</tr>
-			
+	<div>
+		<div class="jumbotron">
+			<h1 class="display-3">Blogs</h1>	  
+			<p class="lead">
+				<a class="btn btn-primary btn-lg" href="{% url 'more:create' %}" role="button">Create</a>
+			</p>
+		</div>
+
+
+		<div class="row">
 			{% for c in post_items %}
-				<tr>
-					<td class="data"><a href="/posts/detail/{{c.id}}">{{c.title}}</a></td>
-					<td class="data">{{c.content}}</td>
-				</tr>
-			{% endfor %}
 			
-		</table>
+			    <div class="card col-xs-12 col-md-4">
+			    	<div class="card-body">
+			    		{% if c.img %}
+			    			<img src="{{c.img.url}}" alt="card image" class="card-img-top">
+			    		{% endif %}
+			    		<h4 class="card-title">{{c.title}} <small>{{c.updated|timesince}}</small></h4>
+			    		<p class="card-text">{{c.content|linebreaks|truncatechars:30}}</p>
+			    		<a href="{% url 'more:delete' post_id=c.id %}" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="delete ">Delete</a>
+			    		<a href="{% url 'more:update' post_id=c.id %}" class="btn btn-info">Update</a>
+			    		<a href="{% url 'more:detail' post_id=c.id %}" class="btn btn-secondary">Read More...</a>
+			    		<a href="{{c.get_abs_url}}" class="btn btn-success">ID</a>
+			    	</div>
+			    </div>
+			
+			{% endfor %}
+		</div>
+
+
+		<div class="pagination">
+		    <span class="step-links">
+		        {% if post_items.has_previous %}
+		            <a href="?page={{ post_items.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span class="current">
+		            Page {{ post_items.number }} of {{ post_items.paginator.num_pages }}.
+		        </span>
+
+		        {% if post_items.has_next %}
+		            <a href="?page={{ post_items.next_page_number }}">next</a>
+		        {% endif %}
+		    </span>
+		</div>
+
+
 		<p>&copy; Coded {% now 'Y' %}</p>
 	</div>
-</body>
-</html>
+{% endblock content%}
