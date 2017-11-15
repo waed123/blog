@@ -22,26 +22,28 @@
 
 		<div class="row">
 			{% for c in post_items %}
-			
-			    <div class="card col-xs-12 col-md-4">
-			    	<div class="card-body">
-			    		{% if c.img %}
-			    			<img src="{{c.img.url}}" alt="card image" class="card-img-top">
+				<div class="card col-sm-12 col-md-3" >
+					<div class="card-body">
+						<h4 class="card-title">{{c.title}} <small>{{c.updated|timesince}}</small></h4>
+						{% if c.img %}
+			    		<img src="{{c.img.url}}" alt="card image" class="card-img-top">
 			    		{% endif %}
-			    		<h4 class="card-title">{{c.title}} <small>{{c.updated|timesince}}</small></h4>
-			    		<p class="card-text">{{c.content|linebreaks|truncatechars:30}}</p>
-			    		<a href="{% url 'more:delete' post_id=c.id %}" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="delete ">Delete</a>
-			    		<a href="{% url 'more:update' post_id=c.id %}" class="btn btn-info">Update</a>
-			    		<a href="{% url 'more:detail' post_id=c.id %}" class="btn btn-secondary">Read More...</a>
-			    		<a href="{{c.get_abs_url}}" class="btn btn-success">ID</a>
-			    	</div>
-			    </div>
-			
+						<p class="card-text">{{c.content|linebreaks|truncatechars:200}}</p>
+					</div>
+
+					<ul class="list-group list-group-flush">
+						<a href="{% url 'more:delete' post_slug=c.slug %}" class="list-group-item btn btn-warning" data-toggle="tooltip" data-placement="top" title="delete ">Delete <i class="fa fa-trash" aria-hidden="true"></i></a>
+			    		<a href="{% url 'more:update' post_slug=c.slug %}" class="list-group-item btn btn-warning">Update <i class="fa fa-pencil" aria-hidden="true"></i></a>
+			    		<a href="{% url 'more:detail' post_slug=c.slug %}" class="list-group-item btn btn-warning">Read More <i class="fa fa-book" aria-hidden="true"></i></a>
+			    		<a href="{{c.get_abs_url}}" class="list-group-item btn btn-warning">Details <i class="fa fa-info" aria-hidden="true"></i></a>
+					</ul>
+				</div>
 			{% endfor %}
 		</div>
 
 
-		<div class="pagination">
+
+		<div class="pagination" style="margin-top:2%;">
 		    <span class="step-links">
 		        {% if post_items.has_previous %}
 		            <a href="?page={{ post_items.previous_page_number }}">previous</a>
@@ -57,7 +59,5 @@
 		    </span>
 		</div>
 
-
-		<p>&copy; Coded {% now 'Y' %}</p>
 	</div>
 {% endblock content%}

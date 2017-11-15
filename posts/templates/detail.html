@@ -1,5 +1,9 @@
 {% extends "base.html" %}
-	
+
+{% load share%}
+
+
+
 {% block heading %} Detail {% endblock heading%}
 
 {% block content%}
@@ -14,4 +18,17 @@
 		<hr class="my-4">
 		<p><small>{{item.updated|timesince}}</small></p>
 	</div>
+
+	<a class="btn btn-primary" href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}">
+	<i class="fa fa-facebook" aria-hidden="true"></i>
+	</a>
+
+	<a class="btn btn-warning" href="https://twitter.com/home?status={{share_string}}%20{{request.build_absolute_uri}}">
+	<i class="fa fa-twitter" aria-hidden="true"></i>
+	</a>
+
+	<a class="btn btn-success" href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{item.title|share}}&summary={{item.content|truncatechars:140|share}}&source={{request.build_absolute_uri}}">
+	<i class="fa fa-linkedin" aria-hidden="true"></i>
+	</a>
+
 {% endblock content%}
