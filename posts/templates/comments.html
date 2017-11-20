@@ -1,0 +1,28 @@
+{% load crispy_forms_tags %}
+
+{% load comments %}
+
+{% get_comment_list for item as comments %}
+
+{% for comment in comments %}
+	<div class="alert alert-info" role="alert"><b>{{ comment.user_name }} said:</b> {{ comment.comment|linebreaks}}</div>
+{% endfor %}
+
+{% get_comment_form for item as form %}
+
+{% if  not request.user.is_authenticated %}
+	<h1>Please l=Log in To a comment</h1>
+{% else %}
+	<form action="{% comment_form_target %}" method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="name" value="{{ request.user.username }}">
+		<input type="hidden" name="email" value="{{ request.user.email }}">
+		<input type="text" class="form-control input-lg" name="comment">
+		{{ form.content_type }}
+		{{ form.object_pk }}
+		{{ form.timestamp }}
+		{{ form.security_hash }}
+		<input type="hidden" name="next" value="{{item.get_abs_url}}">
+		<input type="submit" name="submit" class="btn btn-primary">
+	</form>
+{% endif %}

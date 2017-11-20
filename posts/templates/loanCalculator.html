@@ -8,8 +8,40 @@
 </head>
 <body>
 	<form method="POST">
-		<input type="" name="">
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Finance & Product types
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<div class="dropdown-item" >Consumer finance</div>
+				<div class="dropdown-item" >Installment finance</div>
+				<div class="dropdown-item" >Auto finance</div>
+			</div>
+		</div>
+		Customer Name: <input type="text" name="fname"><br>
+		<div class="form-group">
+			<label for="exampleFormControlInput1">Email address</label>
+			<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+		</div>
+		Mobile Number: <input type="text" name="fname"><br>
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Purpose of Finance
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<div class="dropdown-item" >Construction material</div>
+				<div class="dropdown-item" >car</div>
+				<div class="dropdown-item" >medical treatment</div>
+				<div class="dropdown-item" >education services</div>
+				<div class="dropdown-item" >consumer goods</div>
+			</div>
+		</div>
+		Monthly Salary: <input type="text" name="fname"><br>
+		Down Payment: <input type="text" name="fname"><br>
+		Finance Amount: <input type="text" name="fname"><br>
+		Finance Tenor: <input type="text" name="fname"><br>
 
+		<button type="submit" class="btn btn-primary">Submit</button>
 
 	</form>
 

@@ -17,6 +17,12 @@
 			<p class="lead">
 				<a class="btn btn-primary btn-lg" href="{% url 'more:create' %}" role="button">Create</a>
 			</p>
+
+
+			<form action="{% url 'more:list' %}" method="GET">
+				<input type="text" name="q" placeholder="search ..." value="{{request.GET.q}}">
+				<input type="submit" value="search">
+			</form>
 		</div>
 
 
@@ -24,11 +30,27 @@
 			{% for c in post_items %}
 				<div class="card col-sm-12 col-md-3" >
 					<div class="card-body">
-						<h4 class="card-title">{{c.title}} <small>{{c.updated|timesince}}</small></h4>
+						<h4 class="card-title">{{c.title}} 
+							<small>{{c.publish|timesince}}</small>
+							{% if c.draft %}
+								<span class="text-danger">Draft</span>
+							{% endif %}
+
+							{% if c.publish > today %}
+								<span class="text-success">Future Post</span>
+							{% endif %}
+						</h4>
+
 						{% if c.img %}
-			    		<img src="{{c.img.url}}" alt="card image" class="card-img-top">
+			    			<img src="{{c.img.url}}" alt="card image" class="card-img-top">
 			    		{% endif %}
+
 						<p class="card-text">{{c.content|linebreaks|truncatechars:200}}</p>
+						<p class="card-text">{{c.author}}</p>
+						<p class="card-text">{{c.author.get_full_name}}</p>
+						<p class="card-text">{{c.author.last_login}}</p>
+						<p class="card-text">{{c.author.date_joined}}</p>
+						<p class="card-text">{{c.author.userename}}</p>
 					</div>
 
 					<ul class="list-group list-group-flush">
@@ -38,6 +60,8 @@
 			    		<a href="{{c.get_abs_url}}" class="list-group-item btn btn-warning">Details <i class="fa fa-info" aria-hidden="true"></i></a>
 					</ul>
 				</div>
+				{% empty %}
+					<h1 class="text-danger">Sorry, no search results for {{request.GET.q}}</h1>
 			{% endfor %}
 		</div>
 
@@ -46,7 +70,7 @@
 		<div class="pagination" style="margin-top:2%;">
 		    <span class="step-links">
 		        {% if post_items.has_previous %}
-		            <a href="?page={{ post_items.previous_page_number }}">previous</a>
+		            <a href="?page={{ post_items.previous_page_number }}&q={{request.GET.q}}">previous</a>
 		        {% endif %}
 
 		        <span class="current">
@@ -54,7 +78,7 @@
 		        </span>
 
 		        {% if post_items.has_next %}
-		            <a href="?page={{ post_items.next_page_number }}">next</a>
+		            <a href="?page={{ post_items.next_page_number }}&q={{request.GET.q}}">next</a>
 		        {% endif %}
 		    </span>
 		</div>
