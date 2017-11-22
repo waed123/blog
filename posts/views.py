@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, UserLogin, UserSignup
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from urllib.parse import quote
@@ -8,6 +8,66 @@ from django.http import Http404, JsonResponse
 from django.utils import timezone
 from django.db.models import Q
 from .models import Like
+from django.contrib.auth import authenticate, login, logout
+
+
+def usersignup(request):
+	context = {}
+	form = UserSignup()
+	context['form'] = form
+	if request.method == 'POST':
+		form = UserSignup(request.POST)
+		if form.is_valid():
+			user = form.save()
+
+			# to change the value of password since it should encrupte 
+			username = user.username
+			password  = user.password
+
+			user.set_password(password) # to hash the  password
+			user.save()
+
+			#after saving user we want to log in the same user
+			#Check if user authenticted to log in or not 
+			auth = authenticate(username=username, password=password) # first username is a Field in User Model and same for password
+			login(request, auth)
+
+
+			return redirect("more:list")
+		messages.warning(request, form.errors)
+		return redirect("more:usersignup")
+	return render(request, 'signup.html', context)
+
+
+
+
+def userlogin(request):
+	context = {}
+	form = UserLogin()
+	context['form'] = form
+	if request.method == 'POST':
+		form = UserLogin(request.POST)
+		if form.is_valid():
+			some_username = form.cleaned_data['username']
+			some_password = form.cleaned_data['password']
+
+			auth = authenticate(username=some_username, password=some_password)
+			if auth is not None:
+				login(request, auth)
+				return redirect("more:list")
+			messages.warning(request, "Incorrect username / password combination.")
+			return redirect("more:userlogin")
+		messages.warning(request, form.errors)
+		return redirect("more:userlogin")
+	return render(request, 'login.html', context)
+
+
+
+def userlogout(request):
+	logout(request)
+	return redirect("more:list")
+
+
 
 
 def post_list(request):

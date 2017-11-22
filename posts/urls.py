@@ -9,4 +9,7 @@ urlpatterns = [
     url(r'^update/(?P<post_slug>[-\w]+)/$', views.post_update , name="update"),
     url(r'^delete/(?P<post_slug>[-\w]+)/$', views.post_delete , name="delete"),
     url(r'^like_button/(?P<post_id>\d+)/$', views.like_button , name="like_button"),
+    url(r'^signup/$', views.usersignup , name="usersignup"),
+    url(r'^login/$', views.userlogin , name="userlogin"),
+    url(r'^logout/$', views.userlogout , name="userlogout"),
 ]

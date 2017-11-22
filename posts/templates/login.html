@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block heading %} Log in {% endblock heading%}
+
+{% block content%}
+	<form action="{% url 'more:userlogin' %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+	   {# {{form.as_p}} #}
+	   {{form|crispy}}
+	   <input type="submit" value="Log in">
+   </form>
+{% endblock content%}
