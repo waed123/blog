@@ -5,10 +5,15 @@
 {% block heading %} Log in {% endblock heading%}
 
 {% block content%}
+	<br><br><br>
 	<form action="{% url 'more:userlogin' %}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 	   {# {{form.as_p}} #}
 	   {{form|crispy}}
-	   <input type="submit" value="Log in">
+	   <input type="submit" value="Log in" class="btn btn-success">
+	   <a href="{% url 'github_login' %}" class="btn btn-dark"><i class="fa fa-github-alt" aria-hidden="true" ></i> Login Using GitHub</a>
+	   <a href="{% url 'twitter_login' %}" class="btn btn-info"><i class="fa fa-twitter" aria-hidden="true" ></i> Login Using Twitter</a>
+	   <a href="{% url 'instagram_login' %}" class="btn btn-primary"><i class="fa fa-instagram" aria-hidden="true" ></i> Login Using Instagram</a>
    </form>
+   
 {% endblock content%}

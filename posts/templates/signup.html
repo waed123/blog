@@ -5,10 +5,12 @@
 {% block heading %} Sign Up {% endblock heading%}
 
 {% block content%}
+<br><br><br><br>
 	<form action="{% url 'more:usersignup' %}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		{# {{form.as_p}} #}
 		{{form|crispy}}
-		<input type="submit" value="sign up">
+		<input type="submit" value="sign up" class="btn btn-dark">
+		<a href="{% url 'github_login' %}" class="btn btn-dark"><i class="fa fa-github-alt" aria-hidden="true" ></i> Login Using GitHub</a>
 	</form>
 {% endblock content%}
