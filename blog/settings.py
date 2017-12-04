@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'gitty',
     'twitty',
     'insta',
+    'api',
+    'rest_framework',
 ]
 
 CRISPY_TEMPLATE_PACK='bootstrap4'
@@ -142,6 +144,11 @@ SOCIALACCOUNT_PROVIDERS = {
             'gist',
         ],
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5
 }
 
 

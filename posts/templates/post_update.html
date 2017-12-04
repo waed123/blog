@@ -4,6 +4,7 @@
 {% block heading %} Update {% endblock heading%}
 
 {% block content%}
+<br><br><br>
 	<form action="{% url 'more:update' post_slug=item.slug %}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		{{form|crispy}}

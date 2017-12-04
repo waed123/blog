@@ -14,6 +14,7 @@ urlpatterns = [
 	url(r'^gitty/', include('gitty.urls', namespace='gitty')),
 	url(r'^twitty/', include('twitty.urls', namespace='twitty')),
 	url(r'^insta/', include('insta.urls', namespace='insta')),
+	url(r'^api/', include('api.urls', namespace='api')),
 ]
 
 if settings.DEBUG:
