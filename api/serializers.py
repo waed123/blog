@@ -2,10 +2,12 @@ from rest_framework import serializers
 from posts.models import Post
 from django_comments.models import Comment
 from django.contrib.auth.models import User
+from rest_framework_jwt.settings import api_settings
 
 class UserLoginSerializer(serializers.Serializer):
 	username = serializers.CharField()
 	password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+	token = serializers.CharField(allow_blank=True, read_only=True) #to display token in API user screen I should create firld for it
 
 	def validate(self, data):
 		username = data.get('username')
@@ -24,6 +26,15 @@ class UserLoginSerializer(serializers.Serializer):
 			# check_password is a method from user model allows me to check if it is the correct password or not
 			if not user_obj.check_password(password):
 				raise serializers.ValidationError("This credentials, please try again.")
+
+		
+		jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+		jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+		payload = jwt_payload_handler(user_obj) #generate token and assign it to the specific user
+		token = jwt_encode_handler(payload) #encode the generated token string 
+
+		data["token"] = token #save token to the field token in data
 		return data
 
 
@@ -112,7 +123,7 @@ class PostDetailSearializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Post
-		fields = ['id','author', 'user','title', 'slug', 'content','publish','draft', 'image', 'comments']
+		fields = ['id','author', 'user','title', 'slug', 'content','publish','draft', 'comments']
 
 	def get_user(self, obj):
 		return str(obj.author.username)
